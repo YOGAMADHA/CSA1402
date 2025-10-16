@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int main() {
+    char str[100];
+    int i;
+
+    printf("Enter an expression: ");
+    fgets(str, sizeof(str), stdin);   // safe version of gets()
+
+    for (i = 0; str[i] != '\0'; i++) {
+
+        // Ignore spaces and newlines
+        if (str[i] == ' ' || str[i] == '\n')
+            continue;
+
+        // Identifier (starts with a letter)
+        if (isalpha(str[i])) {
+            printf("Identifier: %c", str[i]);
+            i++;
+            while (isalnum(str[i])) {  // continue letters or digits
+                printf("%c", str[i]);
+                i++;
+            }
+            printf("\n");
+            i--;  // adjust index
+        }
+
+        // Constant (starts with a digit)
+        else if (isdigit(str[i])) {
+            printf("Constant: %c", str[i]);
+            i++;
+            while (isdigit(str[i])) {
+                printf("%c", str[i]);
+                i++;
+            }
+            printf("\n");
+            i--;
+        }
+
+        // Operator symbols
+        else if (str[i] == '+' || str[i] == '-' || str[i] == '*' || 
+                 str[i] == '/' || str[i] == '=') {
+            printf("Operator: %c\n", str[i]);
+        }
+    }
+
+    return 0;
+}
